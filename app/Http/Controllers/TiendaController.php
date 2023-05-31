@@ -13,6 +13,7 @@ class TiendaController extends Controller
     public function index()
     {
         //
+        Tienda::
     }
 
     /**
