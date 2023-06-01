@@ -32,24 +32,17 @@ class TiendaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'fecha_apertura' => 'date_format:d/m/Y'
-            ]
-        );
+        $fechaRegex = '/^\d{2}\/\d{2}\/\d{2}$/';
 
-        if ($validator->fails()) {
-            // La validación ha fallado
-            dd($request);
-            $errors = $validator->errors();
-        } else {
-            $data = $request->except(['_token', '_method']);
-            Tienda::insert($data);
+        if (!preg_match($fechaRegex, $request->fecha_apertura)) {
+            // La validación ha fallado para el campo "fecha_apertura"
+            $errors = "El campo 'fecha_apertura' debe tener el formato dd/mm/YYYY.";
+            return redirect('/')->with('errors', $errors);
         }
 
-
+        // La validación ha sido exitosa
+        $data = $request->except(['_token', '_method']);
+        Tienda::insert($data);
 
         return redirect()->back();
     }
