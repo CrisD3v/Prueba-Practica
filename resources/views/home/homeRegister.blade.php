@@ -1,7 +1,7 @@
 @include('global.index')
 @extends('global.scripts')
 
-<div class="container">
+<div class="container mt-5">
     <div class="d-flex justify-content-center align-items-center">
         <div class=" W-25 mb-4">
             <select class="form-select text-center" id="selectForm"  onchange="typeForm(this.value)">

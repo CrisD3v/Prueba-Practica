@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductoController extends Controller
 {
@@ -13,6 +14,16 @@ class ProductoController extends Controller
     public function index()
     {
         //
+    }
+
+    public function listProductos($id){
+        return view('Productos.Productos',compact('id'));
+    }
+
+    public function productoTienda($id)
+    {
+        $productos = Producto::where('tienda_id',$id)->get();
+        return json_encode($productos);
     }
 
     /**
@@ -29,6 +40,26 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->except(['_token', '_method']);
+        $validator = Validator::make(
+            [
+                'valor' => $request->valor
+            ],
+            [
+                'valor' => 'numeric', // Validar que el campo "valor" sea numérico
+            ]
+        );
+        if ($validator->fails()) {
+            // La validación ha fallado
+            $errors = $validator->errors();
+        } else {
+            if ($request->hasFile('imagen')) {
+                $data['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            }
+            Producto::insert($data);
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -36,7 +67,6 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
     }
 
     /**
@@ -45,6 +75,7 @@ class ProductoController extends Controller
     public function edit(Producto $producto)
     {
         //
+
     }
 
     /**

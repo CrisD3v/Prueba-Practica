@@ -9,16 +9,16 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     @if (Request::path() == '/')
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
                     @else
-                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
                     @endif
                 </li>
                 <li class="nav-item">
-                    @if (Request::path() == '/formularioCrear')
-                        <a class="nav-link active" href="#">Registrar</a>
+                    @if (Request::path() == 'registerData')
+                        <a class="nav-link active" href="{{route('registerData')}}">Registrar</a>
                     @else
-                        <a class="nav-link" href="#">Registrar</a>
+                        <a class="nav-link" href="{{route('registerData')}}">Registrar</a>
                     @endif
                 </li>
             </ul>

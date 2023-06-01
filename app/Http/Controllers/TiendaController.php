@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tienda;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class TiendaController extends Controller
@@ -12,8 +13,10 @@ class TiendaController extends Controller
      */
     public function index()
     {
-        //
-        Tienda::
+        //OBTENDREMOS TODOS LOS DATOS PARA UTILIZARLO EN EL FETCH DE JS Y CONSUMIRLOS.
+        $tiendas = Tienda::get();
+
+        return json_encode($tiendas);
     }
 
     /**
@@ -30,6 +33,25 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'fecha_apertura' => 'date_format:d/m/Y'
+            ]
+        );
+
+        if ($validator->fails()) {
+            // La validación ha fallado
+            dd($request);
+            $errors = $validator->errors();
+        } else {
+            $data = $request->except(['_token', '_method']);
+            Tienda::insert($data);
+        }
+
+
+
+        return redirect()->back();
     }
 
     /**

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ use App\Http\Controllers\ProductoController;
 Route::get('/', function () {
     return view('home.home');
 });
+
+Route::get('/registerData', [Controller::class, 'viewRegisterData'])->name('registerData');
+Route::get('/productoTienda/{id_tienda}', [ProductoController::class, 'productoTienda']);
+Route::get('/listProductos/{id_tienda}', [ProductoController::class, 'listProductos']);
 
 Route::resource('tiendas', TiendaController::class);
 Route::resource('productos', ProductoController::class);
